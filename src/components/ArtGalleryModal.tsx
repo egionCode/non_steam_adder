@@ -26,18 +26,23 @@ const ArtGalleryModal: Component<ArtGalleryModalProps> = (props) => {
       let filtered = results || [];
       
       if (props.orientation === 'landscape') {
-        filtered = filtered.filter(g => 
+        const landscape = filtered.filter(g => 
+          (g.width && g.height && g.width > g.height) ||
           g.url.includes("460x215") || 
           g.url.includes("920x430") || 
           g.url.includes("horizontal") ||
           g.url.includes("landscape")
         );
+        // Only apply filter if it doesn't empty the results
+        if (landscape.length > 0) filtered = landscape;
       } else if (props.orientation === 'portrait') {
-        filtered = filtered.filter(g => 
+        const portrait = filtered.filter(g => 
+          (g.width && g.height && g.width < g.height) ||
           g.url.includes("600x900") || 
-          g.url.includes("342x482") ||
-          (!g.url.includes("460x215") && !g.url.includes("920x430") && !g.url.includes("horizontal"))
+          g.url.includes("342x482")
         );
+        // Only apply filter if it doesn't empty the results
+        if (portrait.length > 0) filtered = portrait;
       }
       
       setArtworks(filtered);

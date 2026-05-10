@@ -9,11 +9,15 @@ pub struct SGDBGame {
     pub name: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct SGDBArtwork {
     pub id: u32,
     pub url: String,
     pub thumb: String,
+    #[serde(default)]
+    pub width: u32,
+    #[serde(default)]
+    pub height: u32,
 }
 
 #[derive(Debug, Serialize, Deserialize)]

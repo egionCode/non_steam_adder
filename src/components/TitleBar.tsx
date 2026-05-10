@@ -7,7 +7,8 @@ const TitleBar: Component = () => {
   return (
     <div 
       data-tauri-drag-region 
-      class="h-8 bg-steam-bg-dark flex items-center justify-between select-none fixed top-0 left-0 right-0 z-[100] border-b border-white/5"
+      onMouseDown={() => appWindow.startDragging()}
+      class="h-8 bg-steam-bg-dark flex items-center justify-between select-none fixed top-0 left-0 right-0 z-[100] border-b border-white/5 cursor-default"
     >
       <div class="flex items-center px-3 gap-2 pointer-events-none">
         <div class="w-3.5 h-3.5 opacity-60">

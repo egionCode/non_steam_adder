@@ -1,5 +1,6 @@
 import { Component, createSignal, createEffect, Show } from "solid-js";
 import { invoke } from "@tauri-apps/api/core";
+import { getCurrentWindow } from "@tauri-apps/api/window";
 import { SGDBArtwork } from "../App";
 import ArtGalleryModal from "./ArtGalleryModal";
 
@@ -65,19 +66,21 @@ const ManagementScreen: Component<ManagementScreenProps> = (props) => {
       invoke<SGDBArtwork[]>("get_sgdb_artworks", { gameId: id, artType: "grids" })
         .then(grids => {
           // Filter for Vertical (Portrait) - standard is 600x900 or 342x482
-          const verticalArt = grids.find(g => g.url.includes("600x900") || g.url.includes("342x482")) || 
-                            grids.find(g => !g.url.includes("460x215") && !g.url.includes("920x430") && !g.url.includes("horizontal")) || 
-                            grids[0];
-          setGrid(verticalArt || null);
+          const portraitArt = grids.filter(g => 
+            (g.width && g.height && g.width < g.height) ||
+            g.url.includes("600x900") || 
+            g.url.includes("342x482")
+          );
+          setGrid(portraitArt[0] || grids[0] || null);
 
           // Filter for Wide (Landscape) - standard is 460x215 or 920x430
-          const wideArt = grids.find(g => g.url.includes("460x215") || g.url.includes("920x430")) || 
-                         grids.find(g => g.url.includes("horizontal")) ||
-                         grids.find(g => g.url.includes("landscape")) ||
-                         // If no horizontal specific dimensions found, look for something that is NOT vertical
-                         grids.find(g => !g.url.includes("600x900") && !g.url.includes("342x482")) ||
-                         grids[0];
-          setWide(wideArt || null);
+          const wideArt = grids.filter(g => 
+            (g.width && g.height && g.width > g.height) ||
+            g.url.includes("460x215") || 
+            g.url.includes("920x430") || 
+            g.url.includes("horizontal")
+          );
+          setWide(wideArt[0] || grids[0] || null);
         })
         .finally(() => setLoading(prev => ({ ...prev, grid: false, wide: false })));
 
@@ -204,23 +207,31 @@ const ManagementScreen: Component<ManagementScreenProps> = (props) => {
       }>
         <div class="relative w-full">
           <Show when={isSyncing()}>
-            <div class="absolute inset-0 z-50 flex flex-col items-center justify-center bg-steam-bg-dark/40 backdrop-blur-sm rounded-2xl border border-steam-blue/20 animate-steam-fade-in">
-              <div class="relative w-64 h-1 bg-white/5 rounded-full overflow-hidden mb-4">
-                <div class="absolute inset-0 bg-steam-blue animate-steam-shimmer"></div>
+            <div class="absolute inset-0 z-50 flex flex-col items-center justify-center bg-steam-bg-dark/60 backdrop-blur-xl rounded-2xl border border-steam-blue/30 animate-steam-fade-in overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.5)]">
+              <div class="relative w-72 h-1.5 bg-white/5 rounded-full overflow-hidden mb-6">
+                <div class="absolute inset-0 bg-steam-blue animate-steam-shimmer shadow-[0_0_20px_rgba(102,192,244,0.5)]"></div>
               </div>
-              <span class="text-steam-blue font-black uppercase tracking-[0.3em] text-xs animate-steam-pulse">Injecting Assets...</span>
+              <span class="text-steam-blue font-black uppercase tracking-[0.4em] text-[10px] animate-steam-pulse drop-shadow-[0_0_10px_rgba(102,192,244,0.5)]">Injecting Assets...</span>
+              
+              {/* Scanline effect during sync */}
+              <div class="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-steam-blue/5 to-transparent h-20 w-full animate-[steam-scan_2s_infinite] opacity-30"></div>
             </div>
           </Show>
 
-          <div class="management-grid w-full transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
+          <div class="management-grid w-full transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]"
             style={{ 
-              opacity: isSyncing() ? 0.3 : 1,
-              filter: isSyncing() ? 'blur(4px) grayscale(0.5)' : 'none',
-              transform: isSyncing() ? 'scale(0.98)' : 'scale(1)'
+              opacity: isSyncing() ? 0.2 : 1,
+              transform: isSyncing() ? 'scale(0.96)' : 'scale(1)',
+              filter: isSyncing() ? 'grayscale(0.8)' : 'none'
             }}
           >
           {/* Header Area */}
-          <div style={{ "grid-area": "header" }} data-tauri-drag-region class="text-center mb-6 w-full flex flex-col items-center">
+          <div 
+            style={{ "grid-area": "header" }} 
+            data-tauri-drag-region 
+            onMouseDown={() => getCurrentWindow().startDragging()}
+            class="text-center mb-6 w-full flex flex-col items-center cursor-default"
+          >
             <h1 class="text-3xl font-black mb-4 tracking-tighter text-white uppercase drop-shadow-xl bg-gradient-to-b from-white to-white/40 bg-clip-text text-transparent">
               Sync Artwork
             </h1>

@@ -16,6 +16,8 @@ export interface SGDBArtwork {
   id: number;
   url: string;
   thumb: string;
+  width?: number;
+  height?: number;
 }
 
 function App() {
