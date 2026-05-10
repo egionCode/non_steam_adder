@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+@theme {
+  --color-steam-bg: #1b2838;
+  --color-steam-bg-dark: #0d121a;
+  --color-steam-panel: #171a21;
+  --color-steam-panel-light: #212c3d;
+  --color-steam-blue: #66c0f4;
+  --color-steam-blue-hover: #7ed1ff;
+  --color-steam-gray: #3d4450;
+  --color-steam-text: #c7d5e0;
+  --color-steam-text-muted: #8f98a0;
+  --color-steam-border: #2a475e;
+  --color-steam-accent: #1a9fff;
+  
+  --font-motiva: "Motiva Sans", Inter, system-ui, sans-serif;
+
+  --spacing-steam-xs: 4px;
+  --spacing-steam-sm: 8px;
+  --spacing-steam-md: 16px;
+  --spacing-steam-lg: 24px;
+  --spacing-steam-xl: 40px;
+
+  --animate-steam-fade-in: steam-fade-in 0.3s var(--ease-out-expo);
+  --animate-steam-slide-up: steam-slide-up 0.5s var(--ease-out-expo);
+  --animate-steam-pulse: steam-pulse 2s infinite ease-in-out;
+  --animate-steam-shimmer: steam-shimmer 2s infinite linear;
+
+  @keyframes steam-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes steam-slide-up {
+    from { transform: translateY(10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  @keyframes steam-pulse {
+    0%, 100% { opacity: 0.4; filter: blur(2px); }
+    50% { opacity: 0.8; filter: blur(4px); }
+  }
+
+  @keyframes steam-shimmer {
+    from { background-position: -200% 0; }
+    to { background-position: 200% 0; }
+  }
+
+  @keyframes steam-scan {
+    0% { top: 0%; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+  }
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@layer utilities {
+  .animate-stagger-1 { animation-delay: 100ms; }
+  .animate-stagger-2 { animation-delay: 200ms; }
+  .animate-stagger-3 { animation-delay: 300ms; }
+  .animate-stagger-4 { animation-delay: 400ms; }
+  .animate-stagger-5 { animation-delay: 500ms; }
+
+  .steam-shimmer {
+    background: linear-gradient(90deg, transparent, rgba(102, 192, 244, 0.05), transparent);
+    background-size: 200% 100%;
+    animation: steam-shimmer 2s infinite linear;
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-steam-bg-dark text-steam-text font-motiva overflow-hidden select-none h-screen;
+    background-image: radial-gradient(circle at top left, #1b2838 0%, #0d121a 70%);
+  }
+  
+  #root {
+    @apply h-full w-full flex flex-col;
+  }
+}
+
+.management-grid {
+  display: grid;
+  gap: var(--spacing-steam-md);
+  grid-template-areas:
+    "header   header   header   header"
+    "hero     hero     hero     hero"
+    "vertical wide     wide     wide"
+    "vertical logo     logo     icon"
+    "footer   footer   footer   footer";
+  grid-template-columns: 220px 1fr 1fr 120px;
+  grid-template-rows: auto 140px 1fr 110px auto;
+  align-items: stretch;
+  height: 100%;
+  max-height: 680px;
+}
+
+@media (max-width: 600px) {
+  .management-grid {
+    grid-template-areas:
+      "header"
+      "hero"
+      "vertical"
+      "wide"
+      "logo"
+      "icon"
+      "footer";
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    max-height: none;
+  }
+}
+
+.management-grid > div {
+  min-height: 0;
+  min-width: 0;
+}
+
+/* Custom Resize Borders for Borderless Window */
+.resize-handle {
+  position: fixed;
+  z-index: 999;
+}
+.resize-handle.top { top: 0; left: 0; right: 0; height: 4px; cursor: n-resize; }
+.resize-handle.bottom { bottom: 0; left: 0; right: 0; height: 4px; cursor: s-resize; }
+.resize-handle.left { top: 0; bottom: 0; left: 0; width: 4px; cursor: w-resize; }
+.resize-handle.right { top: 0; bottom: 0; right: 0; width: 4px; cursor: e-resize; }
+.resize-handle.top-left { top: 0; left: 0; width: 8px; height: 8px; cursor: nw-resize; }
+.resize-handle.top-right { top: 0; right: 0; width: 8px; height: 8px; cursor: ne-resize; }
+.resize-handle.bottom-left { bottom: 0; left: 0; width: 8px; height: 8px; cursor: sw-resize; }
+.resize-handle.bottom-right { bottom: 0; right: 0; width: 8px; height: 8px; cursor: se-resize; }

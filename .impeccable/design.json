@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-10T14:00:00Z",
+  "title": "Design System: Non-Steam Adder",
+  "extensions": {
+    "colorMeta": {
+      "primary": { "role": "primary", "displayName": "Steam Blue", "canonical": "oklch(80% 0.1 240)", "tonalRamp": ["#0d121a", "#1b2838", "#2a475e", "#3d4450", "#66c0f4", "#7ed1ff", "#a5e0ff", "#d1f0ff"] },
+      "neutral-bg": { "role": "neutral", "displayName": "Deep Void", "canonical": "oklch(15% 0.01 240)", "tonalRamp": ["#05080c", "#0d121a", "#171a21", "#212c3d", "#2a475e", "#3d4450", "#8f98a0", "#c7d5e0"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display Bold", "purpose": "Hero headlines and page titles." },
+      "body": { "displayName": "Main Body", "purpose": "Default reading text." }
+    },
+    "shadows": [
+      { "name": "steam-glow", "value": "0 0 15px rgba(102, 192, 244, 0.4)", "purpose": "Interactive highlight for primary focus elements." }
+    ],
+    "motion": [
+      { "name": "snappy", "value": "cubic-bezier(0.2, 0.8, 0.2, 1)", "purpose": "Quick, responsive transitions for the utility feel." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The main action button.",
+      "html": "<button class=\"ds-btn-primary\">ADD TO STEAM</button>",
+      "css": ".ds-btn-primary { background: #66c0f4; color: #1b2838; padding: 12px 24px; border-radius: 4px; border: none; font-weight: 900; letter-spacing: 0.05em; cursor: pointer; transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1); } .ds-btn-primary:hover { background: #7ed1ff; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102, 192, 244, 0.3); } .ds-btn-primary:active { transform: translateY(0); }"
+    },
+    {
+      "name": "Art Slot",
+      "kind": "card",
+      "description": "A container for artwork previews.",
+      "html": "<div class=\"ds-art-slot\"><div class=\"ds-art-placeholder\">600x900 Cover</div><div class=\"ds-art-label\">LIBRARY COVER</div></div>",
+      "css": ".ds-art-slot { width: 160px; aspect-ratio: 2/3; background: #171a21; border: 1px solid #2a475e; border-radius: 4px; position: relative; overflow: hidden; cursor: pointer; transition: all 0.2s; } .ds-art-slot:hover { border-color: #66c0f4; transform: scale(1.02); } .ds-art-placeholder { height: 100%; display: flex; align-items: center; justify-content: center; color: #8f98a0; font-size: 10px; font-weight: bold; } .ds-art-label { position: absolute; bottom: 0; width: 100%; background: linear-gradient(transparent, rgba(0,0,0,0.9)); padding: 8px 4px; color: white; font-size: 8px; font-weight: 900; text-align: center; letter-spacing: 0.1em; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Steam Engine Extension",
+    "overview": "A utility that feels like an organic part of the Steam ecosystem, prioritizing functional density and tonal depth.",
+    "keyCharacteristics": ["High Information Density", "Deep Tonal Contrast", "Tactile Transitions"],
+    "rules": [
+      { "name": "The Rarity Rule", "body": "Steam Blue accent on ≤10% of any screen.", "section": "colors" },
+      { "name": "The Surface Layer Rule", "body": "Depth via tonal shifts, not structural shadows.", "section": "elevation" }
+    ],
+    "dos": ["Do use radial gradients for focus", "Do use bold weight contrast for hierarchy"],
+    "donts": ["Don't use generic SaaS animations", "Don't exceed 12px border radius"]
+  }
+}
