@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "non_steam_adder",
+  "productName": "nonsteamadder",
   "version": "0.1.0",
-  "identifier": "com.non_steam_adder.app",
+  "identifier": "com.nonsteamadder.app",
   "build": {
     "beforeDevCommand": "yarn dev",
     "devUrl": "http://localhost:1420",
@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "non_steam_adder",
+        "title": "nonsteamadder",
         "width": 1000,
         "height": 800,
         "minWidth": 900,
