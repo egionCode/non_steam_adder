@@ -2,6 +2,11 @@
 
 A sleek desktop application to bring your DRM-free games into your Steam library with official artwork and seamless integration.
 
+<p align="center">
+  <img src="docs/home.png" width="49%" alt="Home Screen" />
+  <img src="docs/grid.png" width="49%" alt="Artwork Selection" />
+</p>
+
 ## Features
 
 - **Easy Import**: Drag and drop your `.exe` files or browse to add them.

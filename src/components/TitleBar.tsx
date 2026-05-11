@@ -5,11 +5,10 @@ const TitleBar: Component = () => {
   const appWindow = getCurrentWindow();
 
   return (
-    <div 
-      data-tauri-drag-region 
-      class="h-8 bg-steam-bg-dark flex items-center justify-between select-none border-b border-white/5 cursor-default shrink-0"
-    >
-      <div class="flex items-center px-3 gap-2 pointer-events-none">
+    <div class="h-8 bg-steam-bg-dark flex items-center justify-between select-none border-b border-white/5 cursor-default shrink-0 relative">
+      <div data-tauri-drag-region class="absolute inset-0 z-0"></div>
+      
+      <div class="flex items-center px-3 gap-2 pointer-events-none z-10">
         <div class="w-3.5 h-3.5 opacity-60">
            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
@@ -18,7 +17,7 @@ const TitleBar: Component = () => {
         <span class="text-[10px] font-black uppercase tracking-[0.2em] text-white/30">Non-Steam Adder</span>
       </div>
 
-      <div class="flex h-full">
+      <div class="flex h-full z-10">
         <button 
           onClick={() => appWindow.minimize()}
           class="w-11 h-full flex items-center justify-center hover:bg-white/5 transition-colors group"
