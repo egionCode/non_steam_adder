@@ -28,6 +28,3 @@ A sleek desktop application to bring your DRM-free games into your Steam library
 4. Review or pick alternative artwork from the gallery.
 5. Click "Add to Steam Library".
 6. Restart Steam to see your new game with its fresh artwork.
-
----
-Built with ❤️ for the Steam community.
