@@ -37,8 +37,8 @@
   }
 
   @keyframes steam-pulse {
-    0%, 100% { opacity: 0.4; filter: blur(2px); }
-    50% { opacity: 0.8; filter: blur(4px); }
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
   }
 
   @keyframes steam-shimmer {

@@ -79,7 +79,7 @@ function App() {
   return (
     <div class="flex-1 flex flex-col h-screen overflow-hidden bg-steam-bg-dark text-steam-text">
       {/* Resize Handles */}
-      <div class="resize-handle top" data-tauri-drag-region></div>
+      <div class="resize-handle top"></div>
       <div class="resize-handle bottom"></div>
       <div class="resize-handle left"></div>
       <div class="resize-handle right"></div>
@@ -90,7 +90,7 @@ function App() {
 
       <TitleBar />
       
-      <div class="flex-1 flex flex-col pt-8 overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-steam-gray [&::-webkit-scrollbar-thumb]:rounded-full">
+      <div class="flex-1 flex flex-col overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-steam-gray [&::-webkit-scrollbar-thumb]:rounded-full">
         <div class="p-[clamp(0.5rem,3vw,1.5rem)] flex flex-col items-center">
           <Show when={screen() === "import"}>
             <ImportScreen 

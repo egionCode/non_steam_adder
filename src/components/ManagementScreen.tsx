@@ -211,7 +211,7 @@ const ManagementScreen: Component<ManagementScreenProps> = (props) => {
               <div class="relative w-72 h-1.5 bg-white/5 rounded-full overflow-hidden mb-6">
                 <div class="absolute inset-0 bg-steam-blue animate-steam-shimmer shadow-[0_0_20px_rgba(102,192,244,0.5)]"></div>
               </div>
-              <span class="text-steam-blue font-black uppercase tracking-[0.4em] text-[10px] animate-steam-pulse drop-shadow-[0_0_10px_rgba(102,192,244,0.5)]">Injecting Assets...</span>
+              <span class="text-steam-blue font-black uppercase tracking-[0.4em] text-xs animate-steam-pulse drop-shadow-[0_0_10px_rgba(102,192,244,0.5)]">Injecting Assets...</span>
               
               {/* Scanline effect during sync */}
               <div class="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-steam-blue/5 to-transparent h-20 w-full animate-[steam-scan_2s_infinite] opacity-30"></div>
@@ -228,8 +228,6 @@ const ManagementScreen: Component<ManagementScreenProps> = (props) => {
           {/* Header Area */}
           <div 
             style={{ "grid-area": "header" }} 
-            data-tauri-drag-region 
-            onMouseDown={() => getCurrentWindow().startDragging()}
             class="text-center mb-6 w-full flex flex-col items-center cursor-default"
           >
             <h1 class="text-3xl font-black mb-4 tracking-tighter text-white uppercase drop-shadow-xl bg-gradient-to-b from-white to-white/40 bg-clip-text text-transparent">
