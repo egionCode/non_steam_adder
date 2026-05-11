@@ -1,4 +1,4 @@
-name: 'publish'
+name: "publish"
 
 on:
   push:
@@ -13,10 +13,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - platform: 'ubuntu-22.04'
-            args: '--bundles appimage'
-          - platform: 'windows-latest'
-            args: '--bundles portable'
+          - platform: "ubuntu-22.04"
+            args: "--bundles appimage"
+          - platform: "windows-latest"
+            args: "--bundles portable"
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -39,13 +39,13 @@ jobs:
       - name: install frontend dependencies
         run: npm install
 
-      - uses: tauri-apps/tauri-action@v1
+      - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tagName: app-v__VERSION__
-          releaseName: 'App v__VERSION__'
-          releaseBody: 'Versão portátil para Windows e AppImage para Linux.'
+          releaseName: "App v__VERSION__"
+          releaseBody: "Versão portátil para Windows e AppImage para Linux."
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}
