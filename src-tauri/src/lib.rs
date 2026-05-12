@@ -28,12 +28,39 @@ async fn search_sgdb_games(query: String) -> Result<Vec<SGDBGame>, String> {
 }
 
 #[tauri::command]
-async fn get_sgdb_artworks(game_id: u32, art_type: String) -> Result<Vec<SGDBArtwork>, String> {
+async fn get_sgdb_artworks(
+    game_id: u32, 
+    art_type: String, 
+    dimensions: Option<String>, 
+    types: Option<String>,
+    styles: Option<String>,
+    mimes: Option<String>,
+    nsfw: Option<bool>,
+    humor: Option<bool>,
+    epilepsy: Option<bool>,
+    page: Option<u32>,
+    languages: Option<String>,
+    sort: Option<String>,
+) -> Result<Vec<SGDBArtwork>, String> {
     let api_key = std::env::var("SGDB_API_KEY").unwrap_or_else(|_| "f66d29915ba18e571f169e9dc6bd04c4".to_string());
     if api_key.is_empty() {
         return Err("SGDB_API_KEY environment variable is not set".to_string());
     }
-    steamgriddb::get_artworks(&api_key, game_id, &art_type).await
+    steamgriddb::get_artworks(
+        &api_key, 
+        game_id, 
+        &art_type, 
+        dimensions.as_deref(), 
+        types.as_deref(),
+        styles.as_deref(),
+        mimes.as_deref(),
+        nsfw,
+        humor,
+        epilepsy,
+        page,
+        languages.as_deref(),
+        sort.as_deref()
+    ).await
 }
 
 #[tauri::command]

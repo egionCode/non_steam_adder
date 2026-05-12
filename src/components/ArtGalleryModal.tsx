@@ -18,9 +18,23 @@ const ArtGalleryModal: Component<ArtGalleryModalProps> = (props) => {
   createEffect(async () => {
     setLoading(true);
     try {
+      let dims: string | null = null;
+      if (props.orientation === 'landscape') dims = "460x215,920x430";
+      else if (props.orientation === 'portrait') dims = "600x900,342x482,660x930";
+
       const results = await invoke<SGDBArtwork[]>("get_sgdb_artworks", {
         gameId: props.sgdbId,
-        artType: props.artType
+        artType: props.artType,
+        dimensions: dims,
+        types: "static,animated",
+        styles: null,
+        mimes: null,
+        nsfw: false,
+        humor: false,
+        epilepsy: false,
+        page: null,
+        languages: null,
+        sort: "score"
       });
       
       let filtered = results || [];
@@ -28,20 +42,14 @@ const ArtGalleryModal: Component<ArtGalleryModalProps> = (props) => {
       if (props.orientation === 'landscape') {
         const landscape = filtered.filter(g => 
           (g.width && g.height && g.width > g.height) ||
-          g.url.includes("460x215") || 
-          g.url.includes("920x430") || 
-          g.url.includes("horizontal") ||
-          g.url.includes("landscape")
+          ["460x215", "920x430", "horizontal", "landscape"].some(d => g.url.includes(d))
         );
-        // Only apply filter if it doesn't empty the results
         if (landscape.length > 0) filtered = landscape;
       } else if (props.orientation === 'portrait') {
         const portrait = filtered.filter(g => 
           (g.width && g.height && g.width < g.height) ||
-          g.url.includes("600x900") || 
-          g.url.includes("342x482")
+          ["600x900", "342x482", "660x930"].some(d => g.url.includes(d))
         );
-        // Only apply filter if it doesn't empty the results
         if (portrait.length > 0) filtered = portrait;
       }
       
@@ -108,7 +116,7 @@ const ArtGalleryModal: Component<ArtGalleryModalProps> = (props) => {
         <div class="p-8 border-b border-white/5 flex justify-between items-center bg-white/5">
           <div>
             <h2 class="text-3xl font-black capitalize tracking-tight text-white mb-1">Select {props.artType}</h2>
-            <p class="text-steam-text-muted text-sm uppercase tracking-widest font-bold opacity-40">Masterpiece Selection</p>
+            <p class="text-steam-text-muted text-sm uppercase tracking-widest font-bold opacity-40">Image Selection</p>
           </div>
           <button 
             class="w-12 h-12 flex items-center justify-center rounded-full hover:bg-white/10 text-steam-text-muted hover:text-white transition-all duration-300 active:scale-90" 
@@ -122,7 +130,7 @@ const ArtGalleryModal: Component<ArtGalleryModalProps> = (props) => {
           <Show when={!loading()} fallback={
             <div class="flex flex-col items-center justify-center py-32 gap-6">
               <div class="w-12 h-12 border-4 border-steam-blue/10 border-t-steam-blue rounded-full animate-spin shadow-[0_0_20px_rgba(102,192,244,0.2)]"></div>
-              <p class="text-steam-text-muted animate-pulse font-black uppercase tracking-widest text-sm text-center">Curating Masterpieces...</p>
+              <p class="text-steam-text-muted animate-pulse font-black uppercase tracking-widest text-sm text-center">Curating Images...</p>
             </div>
           }>
             <Show when={artworks().length > 0} fallback={
@@ -130,7 +138,7 @@ const ArtGalleryModal: Component<ArtGalleryModalProps> = (props) => {
                 <div class="text-steam-gray mb-4">
                   <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
                 </div>
-                <p class="text-white font-black text-xl mb-2">No masterpieces found.</p>
+                <p class="text-white font-black text-xl mb-2">No images found.</p>
                 <p class="text-steam-text-muted">Try a different search term in the management screen.</p>
               </div>
             }>
@@ -146,7 +154,7 @@ const ArtGalleryModal: Component<ArtGalleryModalProps> = (props) => {
                       onClick={() => props.onSelect(art)}
                     >
                       <img 
-                        src={art.thumb} 
+                        src={(art.thumb?.endsWith('.webm') || art.thumb?.endsWith('.mp4')) ? art.url : art.thumb} 
                         alt="Artwork" 
                         class={`w-full h-full group-hover:scale-110 transition-transform duration-500 ${props.artType === 'logos' || props.artType === 'icons' ? 'object-contain p-4' : 'object-cover'}`} 
                       />

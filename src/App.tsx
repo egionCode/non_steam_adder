@@ -18,6 +18,7 @@ export interface SGDBArtwork {
   thumb: string;
   width?: number;
   height?: number;
+  art_type: string;
 }
 
 function App() {
